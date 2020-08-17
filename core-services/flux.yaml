@@ -1,0 +1,39 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: flux
+spec:
+  chart:
+    name: flux
+    repository: https://charts.fluxcd.io
+    targetNamespace: core-services
+    version: 
+    wait: true
+  values:
+    dashboard:
+      enabled: true
+    syncGarbageCollection:
+      enabled: true
+    git:
+      branch: git@github.com:Lightricks/eks-core-services.git
+      readonly: true
+      path: "k8s,core-services"
+      pollInterval: 1m
+      secretName: git-deploy-key
+      url: master
+    image:
+      repository: docker.io/fluxcd/flux
+    rbac:
+      create: false
+    serviceAccount:
+      create: true
+    clusterRole:
+      create: false
+      name: flux
+    sync:
+      state: secret
+    prometheus:
+      serviceMonitor:
+        create: true
+    manifestGeneration: true
