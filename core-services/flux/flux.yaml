@@ -32,8 +32,8 @@ spec:
     serviceAccount:
       create: true
     clusterRole:
-      create: false
-      name: flux
+      create: true
+      name: core-services-flux
     sync:
       state: secret
     prometheus:
