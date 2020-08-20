@@ -3,11 +3,11 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: flux
+  namespace: core-services
 spec:
   chart:
     name: flux
     repository: https://charts.fluxcd.io
-    targetNamespace: core-services
     version: "1.4.1"
     wait: true
   values:
