@@ -35,5 +35,5 @@ spec:
       state: secret
     prometheus:
       serviceMonitor:
-        create: true
+        create: false
     manifestGeneration: true
