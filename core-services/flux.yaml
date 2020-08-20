@@ -5,6 +5,8 @@ metadata:
   name: flux
   namespace: core-services
 spec:
+  releaseName: flux
+  wait: true
   chart:
     name: flux
     repository: https://charts.fluxcd.io
