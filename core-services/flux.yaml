@@ -20,7 +20,7 @@ spec:
       readonly: true
       path: "k8s,core-services"
       pollInterval: 1m
-      secretName: git-deploy-key
+      secretName: flux-git-deploy
       url: master
     image:
       repository: docker.io/fluxcd/flux
