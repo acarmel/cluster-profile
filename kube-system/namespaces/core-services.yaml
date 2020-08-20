@@ -1,9 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    name: core-services
-  annotations:
-    src: cluster-profile    
-  name: core-services
