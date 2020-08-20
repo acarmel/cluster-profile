@@ -20,51 +20,13 @@ spec:
     spec:
       serviceAccountName: helm-operator
       volumes:
-      #
-      # You will need these two volumes if you want to establish validated TLS
-      # connections against Tiller.
-      #
-      # - name: tiller-tls-ca
-      #   configMap:
-      #     name: tiller-tls-ca-config
-      #     defaultMode: 0600
-      #
-      # Secret of type `kubernetes.io/tls`:
-      #
-      # - name: tiller-tls-cert
-      #   secret:
-      #     secretName: tiller-tls-cert
-      #     defaultMode: 0400
-      #
-      # The following volume is for using a customised `known_hosts` file,
-      # which you will need to do if you host your own git repository rather
-      # than using GitHub or the like. You will also need to mount it
-      # into the container, below.
-      #
-      # You may also wish to provide an `ssh_config` file,
-      # mentioning more than one `IdentityFile`; for instance, if you are
-      # using more than one GitHub repository. NB: the entry key should be
-      # "config" rather than "ssh_config" if mounted in ~/.ssh/.
-      #
-      # - name: sshdir
-      #   configMap:
-      #     name: flux-ssh-config
-      #     defaultMode: 0400
       # SSH private key to access Git repositories.
         - name: git-key
           secret:
             secretName: flux-git-deploy
             defaultMode: 0400 # when mounted read-only, we won't be able to chmod
-      #
-      # You will need this volume to import any custom Helm repositories
-      # and their credentials and/or certificate configurations. You will also
-      # need to mount it into the container and set the `--helm-repository-import`
-      # argument, below.
-      #
-      # - name: repositories-yaml
-      #   secret:
-      #     secretName: flux-helm-repositories
-      #     defaultMode: 0400
+        - name: "plugins-cache"
+          emptyDir: {}
       initContainers:
         - name: helm-plugin-init-00
           image: "docker.io/fluxcd/helm-operator:1.1.0"
@@ -77,12 +39,8 @@ spec:
             - name: "plugins-cache"
               mountPath: /root/.local/share/helm/plugins
               subPath: v3-config
-
       containers:
       - name: helm-operator
-        # There are no ":latest" images for helm-operator. Find the most recent
-        # release or image version at https://hub.docker.com/r/fluxcd/helm-operator/tags
-        # and replace the tag here.
         image: docker.io/fluxcd/helm-operator:1.0.0
         imagePullPolicy: IfNotPresent
         ports:
@@ -105,6 +63,8 @@ spec:
             cpu: 50m
             memory: 64Mi
         volumeMounts:
+          - name: git-key
+            mountPath: /etc/fluxd/ssh
           - name: "plugins-cache"
             mountPath: /root/.cache/helm/plugins
             subPath: v3
@@ -114,3 +74,6 @@ spec:
         args:
         - --tiller-namespace=kube-system
         - --enabled-helm-versions=v3
+        env:
+          - name: AWS_DEFAULT_REGION
+            value: us-west-2
