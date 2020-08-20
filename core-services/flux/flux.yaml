@@ -12,10 +12,10 @@ spec:
     name: flux
     repository: https://charts.fluxcd.io
     version: "1.4.1"
-    wait: true
+    wait: false
   values:
     dashboard:
-      enabled: true
+      enabled: false
     syncGarbageCollection:
       enabled: true
     git:
