@@ -4,6 +4,8 @@ kind: HelmRelease
 metadata:
   name: flux
   namespace: core-services
+  annorations:
+    maintained: infracloud
 spec:
   releaseName: flux
   wait: true
