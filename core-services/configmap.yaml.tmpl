@@ -7,7 +7,7 @@ metadata:
 data:
   name: "{{ .ClusterName }}"
   region: "{{ .Region }}"
-  eks:
+  cluster-values.yaml: |
     cluster:
       name: "{{ .ClusterName }}"
       region: "{{ .Region }}"
