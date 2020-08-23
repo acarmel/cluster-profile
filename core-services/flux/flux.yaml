@@ -29,11 +29,12 @@ spec:
       repository: docker.io/fluxcd/flux
     rbac:
       create: true
-    serviceAccount:
-      create: true
     clusterRole:
       create: true
-      name: core-services-flux
+      name: ops-flux-cluster-role
+    serviceAccount:
+      create: true
+      name: ops-flux-cluster-sa
     sync:
       state: secret
     prometheus:
