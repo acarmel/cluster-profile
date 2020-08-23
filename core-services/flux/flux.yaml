@@ -19,12 +19,12 @@ spec:
     syncGarbageCollection:
       enabled: true
     git:
-      branch: git@github.com:Lightricks/eks-core-services.git
+      url: git@github.com:Lightricks/eks-core-services.git
       readonly: true
       path: "k8s,core-services"
       pollInterval: 1m
       secretName: flux-git-deploy
-      url: master
+      branch: master
     image:
       repository: docker.io/fluxcd/flux
     rbac:
